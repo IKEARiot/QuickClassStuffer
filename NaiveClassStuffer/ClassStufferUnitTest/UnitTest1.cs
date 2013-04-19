@@ -42,6 +42,13 @@ namespace ClassStufferUnitTest
             var myGenerator = new NaiveClassStuffer.ClassStuffer();
             var results = myGenerator.StuffClass<TestClass1>(10);
         }
+
+        [TestMethod]
+        public void TestMethod4()
+        {
+            var myGenerator = new NaiveClassStuffer.ClassStuffer();
+            var results = myGenerator.StuffClass<TestClass1>(100);
+        }
     }
 
     public class TestClass1

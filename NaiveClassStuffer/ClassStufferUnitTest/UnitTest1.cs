@@ -49,6 +49,27 @@ namespace ClassStufferUnitTest
             var myGenerator = new NaiveClassStuffer.ClassStuffer();
             var results = myGenerator.StuffClass<TestClass1>(100);
         }
+
+        [TestMethod]
+        public void TestMethod5()
+        {
+            var myGenerator = new NaiveClassStuffer.ClassStuffer();
+            var results = myGenerator.StuffClass<TestClass2>(10);
+            Console.Write("");
+        }
+
+    }
+
+    public class TestClass2
+    {
+        [DoubleGenerator]
+        public double Mine { get; set; }
+        [DoubleRangeGenerator(-10,10)]
+        public double Mine2 { get; set; }
+        [SingleGenerator]
+        public Single Mine3 { get; set; }
+        [SingleRangeGenerator(-10, 10)]
+        public Single Mine4 { get; set; }
     }
 
     public class TestClass1
@@ -63,10 +84,12 @@ namespace ClassStufferUnitTest
         public DateTime Z { get; set; }
         [StringRangeGenerator(new string[] { "One", "Two", "Three", "Four" })]
         public string A { get; set; }
-        [FloatGenerator]
-        public float B { get; set; }
+        [SingleGenerator]
+        public Single B { get; set; }
         [DoubleGenerator]
         public Double C { get; set; }
+        [DoubleRangeGenerator(-3.2,3.5)]
+        public Double F { get; set; }
         [BoolGenerator]
         public Boolean E { get; set; }
         

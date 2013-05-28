@@ -68,11 +68,25 @@ namespace NaiveClassStuffer
                 case "IntegerGenerator":
                     generator = new IntegerGenerator();
                     break;
-                case "FloatGenerator":
-                    generator = new FloatGenerator();
+                case "SingleGenerator":
+                    generator = new SingleGenerator();
+                    break;
+                case "SingleRangeGenerator":
+                    generator = GetPropertyInfoAttribute<SingleRangeGenerator>(thisPropInfo);
+                    if (generator == null)
+                    {
+                        generator = new DoubleRangeGenerator(Single.MinValue, Single.MaxValue);
+                    }
                     break;
                 case "DoubleGenerator":
                     generator = new DoubleGenerator();
+                    break;
+                case "DoubleRangeGenerator":
+                    generator = GetPropertyInfoAttribute<DoubleRangeGenerator>(thisPropInfo);
+                    if (generator == null)
+                    {
+                        generator = new DoubleRangeGenerator(double.MinValue, double.MaxValue);
+                    }
                     break;
                 case "BoolGenerator":
                     generator = new BoolGenerator();

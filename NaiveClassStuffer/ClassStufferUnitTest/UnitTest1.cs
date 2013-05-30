@@ -12,100 +12,107 @@ namespace ClassStufferUnitTest
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void CanInitialiseGenerator()
+        {
+            var myGenerator = new NaiveClassStuffer.ClassStuffer();           
+            Assert.IsTrue(myGenerator != null);            
+        }
+        
+        [TestMethod]
+        public void CanPopulateWithData()
         {
             var myGenerator = new NaiveClassStuffer.ClassStuffer();
-            var results = myGenerator.StuffClass<TestClass1>(10);
-        }
+            var results = myGenerator.StuffClass<ExampleClass>(1000);
+            
+            Assert.IsTrue(results.Count() == 1000);
 
+            string[] wordsInFile = { "keep", "on", "rocking", "in", "the", "free", "world" };
+            Assert.IsTrue(wordsInFile.Contains(results.First().AStringFromFile));
+
+            string[] wordSet = { "One", "Two", "Three", "Four" };
+            Assert.IsTrue(wordSet.Contains(results.First().AStringFromADefinedSet));
+
+            // take 50 of the integers, select any with a non default value
+            var someIntegers = results.Select(r => r.AnInteger).Take(50).Where(i => i != 0);
+            Assert.IsTrue(someIntegers.Count() > 0);
+
+            var someSingles = results.Select(r => r.ASingle).Take(50).Where(s => s != 0);
+            Assert.IsTrue(someSingles.Count() > 0);
+
+            var someDoubles = results.Select(r => r.ADouble).Take(50).Where(d => d != 0);
+            Assert.IsTrue(someDoubles.Count() > 0);
+
+            var someIntsFromRange = results.Select(r => r.AnIntegerFromAGivenRange).Take(50).Where(i => i < 10 || i > 20);
+            Assert.IsTrue(someIntsFromRange.Count() == 0);
+
+            var someDates = results.Select(r => r.ADateBetweenTwoDates).Take(50).Where(d => d < DateTime.Parse("2013-01-01") || d >= DateTime.Parse("2013-01-11"));
+            Assert.IsTrue(someDates.Count() == 0);
+            
+            var someDoubleInRange =  results.Select(r => r.ADoubleInaRange).Take(50).Where(d => d < -3.2 || d > 3.5);
+            Assert.IsTrue(someDoubleInRange.Count() == 0);
+
+            var someSingleInRange =  results.Select(r => r.ASingleInaRange).Take(50).Where(d => d < -10 || d > 10);
+            Assert.IsTrue(someSingleInRange.Count() == 0);
+
+            var someBools =  results.Select(r => r.ABoolean).Take(50).Where(d => d == true);
+            Assert.IsTrue(someSingleInRange.Count() != 50);
+                                
+        }
 
         [TestMethod]
-        public void TestMethod2()
+        public void CanPopulateSpecificField()
         {
+            var results = new List<ExampleClass>();
+
+            results.Add(new ExampleClass());
+            results.Add(new ExampleClass());
+            results.Add(new ExampleClass());
+            results.Add(new ExampleClass());
+
             var myGenerator = new NaiveClassStuffer.ClassStuffer();
-            var results = new List<TestClass1>();
 
-            results.Add(new TestClass1());
-            results.Add(new TestClass1());
-            results.Add(new TestClass1());
-            results.Add(new TestClass1());
+            var stringSnapshot = results.Select(r => r.AStringFromFile).ToList();
+            myGenerator.StuffProperty<ExampleClass>("AStringFromFile", results);
+            stringSnapshot.AddRange(results.Select(r => r.AStringFromFile).ToList());
 
-            myGenerator.StuffProperty<TestClass1>("D", results);
-            myGenerator.StuffProperty<TestClass1>("A", results);
-            myGenerator.StuffProperty<TestClass1>("D", results.First());
-            Console.Write("kdjhfskfj");            
+            Assert.IsTrue(stringSnapshot.Count() == 8);
+            var resultSnapshot = stringSnapshot.Where(s => s != null);
+            Assert.IsTrue(resultSnapshot.Count() == 4);            
+                        
         }
-
-        [TestMethod]
-        public void TestMethod3()
-        {
-            var myGenerator = new NaiveClassStuffer.ClassStuffer();
-            var results = myGenerator.StuffClass<TestClass1>(10);
-        }
-
-        [TestMethod]
-        public void TestMethod4()
-        {
-            var myGenerator = new NaiveClassStuffer.ClassStuffer();
-            var results = myGenerator.StuffClass<TestClass1>(100);
-        }
-
-        [TestMethod]
-        public void TestMethod5()
-        {
-            var myGenerator = new NaiveClassStuffer.ClassStuffer();
-            var results = myGenerator.StuffClass<TestClass2>(10);
-            Console.Write("");
-        }
-
     }
 
-    public class TestClass2
-    {
-        [DoubleGenerator]
-        public double Mine { get; set; }
-        [DoubleRangeGenerator(-10,10)]
-        public double Mine2 { get; set; }
-        [SingleGenerator]
-        public Single Mine3 { get; set; }
-        [SingleRangeGenerator(-10, 10)]
-        public Single Mine4 { get; set; }
-    }
-
-    public class TestClass1
+    public class ExampleClass
     {
         [StringFromFileGenerator(@"c:\users\gcase\documents\visual studio 2012\Projects\NaiveClassStuffer\ClassStufferUnitTest\TestFile1.txt")]
-        public string D { get; set; }
+        public string AStringFromFile { get; set; }
+
         [IntegerGenerator]
-        public int X { get; set; }
+        public int AnInteger { get; set; }
+
         [IntegerRangeGenerator(10, 20)]
-        public int Y { get; set; }
+        public int AnIntegerFromAGivenRange { get; set; }
+
         [DateRangeGenerator("2013-01-01", "2013-01-10")]
-        public DateTime Z { get; set; }
+        public DateTime ADateBetweenTwoDates { get; set; }
+
         [StringRangeGenerator(new string[] { "One", "Two", "Three", "Four" })]
-        public string A { get; set; }
+        public string AStringFromADefinedSet { get; set; }
+
         [SingleGenerator]
-        public Single B { get; set; }
+        public Single ASingle { get; set; }
+
         [DoubleGenerator]
-        public Double C { get; set; }
-        [DoubleRangeGenerator(-3.2,3.5)]
-        public Double F { get; set; }
+        public Double ADouble { get; set; }
+
+        [DoubleRangeGenerator(-3.2, 3.5)]
+        public Double ADoubleInaRange { get; set; }
+
+        [SingleRangeGenerator(-10, 10)]
+        public Single ASingleInaRange { get; set; }
+
         [BoolGenerator]
-        public Boolean E { get; set; }
-        
+        public Boolean ABoolean { get; set; }
 
-        public override string ToString()
-        {
-            var thisStringBuilder = new System.Text.StringBuilder();
-            Type thisType = typeof(TestClass1);
-            var properties = thisType.GetProperties();
-            foreach (var item in properties)
-            {
-                thisStringBuilder.Append(item.Name + ":" + item.GetValue(this).ToString() + "   |   ");
-            }
-            return thisStringBuilder.ToString();
-        }
     }
-
-
 }

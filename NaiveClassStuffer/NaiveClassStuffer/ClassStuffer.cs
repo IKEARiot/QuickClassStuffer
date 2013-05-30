@@ -10,6 +10,10 @@ namespace NaiveClassStuffer
 {
     public class ClassStuffer
     {
+        static string[] _generators = { "IntegerGenerator", "SingleGenerator", "SingleRangeGenerator", 
+                                          "DoubleGenerator", "DoubleRangeGenerator", "BoolGenerator", 
+                                          "IntegerRangeGenerator", "StringRangeGenerator", "DateRangeGenerator", 
+                                          "StringFromFileGenerator" };
         IDictionary<string, IRandomGenerator> cacheGenerators = new Dictionary<string, IRandomGenerator>();
 
         public IEnumerable<T> StuffClass<T>(int count)
@@ -134,6 +138,7 @@ namespace NaiveClassStuffer
 
             return generator;
         }
+             
 
         private T GenerateRow<T>(Type thisType, PropertyInfo[] thisPropInfo)
         {
@@ -142,12 +147,11 @@ namespace NaiveClassStuffer
             foreach (var item in thisPropInfo)
             {
                 string fullname = item.PropertyType.Name;
-                var attribType = item.CustomAttributes.FirstOrDefault();
+                var attribType = item.CustomAttributes.Where(ca=> _generators.Contains(ca.AttributeType.Name)).First();
 
                 if (attribType != null)
                 {
                     var thisGenerator = GetGenerator(attribType, item);
-
                     item.SetValue(result, thisGenerator.SelectRandom());
                 }
             }
@@ -167,5 +171,7 @@ namespace NaiveClassStuffer
             }
         }
 
+
+       
     }
 }

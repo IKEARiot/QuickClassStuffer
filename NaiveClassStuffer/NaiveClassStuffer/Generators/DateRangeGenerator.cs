@@ -8,8 +8,8 @@ namespace NaiveClassStuffer.Generators
 {    
     public class DateRangeGenerator : GeneratorBase, IRandomGenerator
     {
-        public DateTime Lower { get; set; }
-        public DateTime Upper { get; set; }
+        private DateTime Lower { get; set; }
+        private DateTime Upper { get; set; }
 
         private enum TimeComponent
         {

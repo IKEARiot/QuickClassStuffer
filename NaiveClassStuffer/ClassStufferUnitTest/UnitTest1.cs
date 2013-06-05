@@ -57,6 +57,8 @@ namespace ClassStufferUnitTest
             var someBools =  results.Select(r => r.ABoolean).Take(50).Where(d => d == true);
             Assert.IsTrue(someSingleInRange.Count() != 50);
                                 
+            var someNormals = results.Select(r => r.ANormallyDistributedDoobery).Take(50).Where(i => i != 0);
+            Assert.IsTrue(someNormals.Count() > 0);
         }
 
         [TestMethod]
@@ -114,5 +116,8 @@ namespace ClassStufferUnitTest
         [BoolGenerator]
         public Boolean ABoolean { get; set; }
 
+        [NormallyDistributedDoubleGenerator(2.5, 0.03)]
+        public double ANormallyDistributedDoobery { get; set; }
+        
     }
 }

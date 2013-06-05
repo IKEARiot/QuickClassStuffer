@@ -44,6 +44,7 @@
     <Compile Include="Generators\DateRangeGenerator.cs" />
     <Compile Include="Generators\DoubleGenerator.cs" />
     <Compile Include="Generators\DoubleRangeGenerator.cs" />
+    <Compile Include="Generators\NormallyDistributedDoubleGenerator.cs" />
     <Compile Include="Generators\SingleGenerator.cs" />
     <Compile Include="Generators\GeneratorBase.cs" />
     <Compile Include="Generators\IntegerGenerator.cs" />

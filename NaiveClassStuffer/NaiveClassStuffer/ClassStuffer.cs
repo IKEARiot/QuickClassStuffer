@@ -13,7 +13,7 @@ namespace NaiveClassStuffer
         static string[] _generators = { "IntegerGenerator", "SingleGenerator", "SingleRangeGenerator", 
                                           "DoubleGenerator", "DoubleRangeGenerator", "BoolGenerator", 
                                           "IntegerRangeGenerator", "StringRangeGenerator", "DateRangeGenerator", 
-                                          "StringFromFileGenerator" };
+                                          "StringFromFileGenerator", "NormallyDistributedDoubleGenerator" };
         IDictionary<string, IRandomGenerator> cacheGenerators = new Dictionary<string, IRandomGenerator>();
 
         public IEnumerable<T> StuffClass<T>(int count)
@@ -84,6 +84,13 @@ namespace NaiveClassStuffer
                     break;
                 case "DoubleGenerator":
                     generator = new DoubleGenerator();
+                    break;
+                case "NormallyDistributedDoubleGenerator":
+                    generator = GetPropertyInfoAttribute<NormallyDistributedDoubleGenerator>(thisPropInfo);
+                    if (generator == null)
+                    {
+                        generator = new NormallyDistributedDoubleGenerator(0, 1);
+                    }
                     break;
                 case "DoubleRangeGenerator":
                     generator = GetPropertyInfoAttribute<DoubleRangeGenerator>(thisPropInfo);

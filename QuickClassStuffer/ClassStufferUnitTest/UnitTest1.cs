@@ -86,7 +86,6 @@ namespace ClassStufferUnitTest
 
     public class ExampleClass
     {
-
         [StringFromFileGenerator(@"C:\Users\gcase\Documents\GitHub\QuickClassStuffer\QuickClassStuffer\ClassStufferUnitTest\TestFile1.txt")]
         public string AStringFromFile { get; set; }
 

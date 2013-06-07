@@ -1,59 +1,75 @@
-Naive Class Stuffer - Object population with randomised data for .Net
+Quick Class Stuffer - Object population with randomised data for .Net
 =====================================================================
 
 Features
 --------
-NCS is intended to be used by a developer/tester looking to create early-stage, meaningful test data for classes. It's primary goal is to be quick and painless.
+QCS is intended to be used by a developer/tester looking to create early-stage, meaningful test data for classes. It's primary goal is to be quick and painless.
 
 
 Create a class and decorate the properties with directives
 ----------------------------------------------------------
 
 ```csharp
-public class TestClass1
+public class ExampleClass
 {
-	[StringFromFileGenerator(@"c:\TestFile1.txt")]
-    public string D { get; set; }
+	[StringFromFileGenerator(@"C:\Users\gcase\Documents\GitHub\QuickClassStuffer\QuickClassStuffer\ClassStufferUnitTest\TestFile1.txt")]
+	public string AStringFromFile { get; set; }
+
 	[IntegerGenerator]
-	public int X { get; set; }
+	public int AnInteger { get; set; }
+
 	[IntegerRangeGenerator(10, 20)]
-	public int Y { get; set; }
+	public int AnIntegerFromAGivenRange { get; set; }
+
 	[DateRangeGenerator("2013-01-01", "2013-01-10")]
-	public DateTime Z { get; set; }
+	public DateTime ADateBetweenTwoDates { get; set; }
+
 	[StringRangeGenerator(new string[] { "One", "Two", "Three", "Four" })]
-	public string A { get; set; }
-	[FloatGenerator]
-	public float B { get; set; }
+	public string AStringFromADefinedSet { get; set; }
+
+	[SingleGenerator]
+	public Single ASingle { get; set; }
+
 	[DoubleGenerator]
-	public Double C { get; set; }
+	public Double ADouble { get; set; }
+
+	[DoubleRangeGenerator(-3.2, 3.5)]
+	public Double ADoubleInaRange { get; set; }
+
+	[SingleRangeGenerator(-10, 10)]
+	public Single ASingleInaRange { get; set; }
+
 	[BoolGenerator]
-	public Boolean E { get; set; }
+	public Boolean ABoolean { get; set; }
+
+	[NormallyDistributedDoubleGenerator(2.5, 0.03)]
+	public double ANormallyDistributedDoobery { get; set; }
+	
 }
 ```
-Generate objects using the NCS populated with randomised data
+Generate objects using the QCS populated with randomised data
 -------------------------------------------------------------
 Example usage:
 
 ```csharp
-var myGenerator = new NaiveClassStuffer.ClassStuffer();
-var results = myGenerator.StuffClass<TestClass1>(10);
+var myGenerator = new QuickClassStuffer.ClassStuffer();
+var results = myGenerator.StuffClass<ExampleClass>(1000);
 ```
 
 Take an existing decorated class and populate specific fields within the objects
 --------------------------------------------------------------------------------
 
 ```csharp
-var myGenerator = new NaiveClassStuffer.ClassStuffer();
-var results = new List<TestClass1>();
+var toBeStuffed = new List<ExampleClass>();
 
-results.Add(new TestClass1());
-results.Add(new TestClass1());
-results.Add(new TestClass1());
-results.Add(new TestClass1());
-// D being a property name
-myGenerator.StuffProperty<TestClass1>("D", results);
-myGenerator.StuffProperty<TestClass1>("A", results);
-myGenerator.StuffProperty<TestClass1>("D", results.First());
+toBeStuffed.Add(new ExampleClass());
+toBeStuffed.Add(new ExampleClass());
+toBeStuffed.Add(new ExampleClass());
+toBeStuffed.Add(new ExampleClass());
+
+var myGenerator = new QuickClassStuffer.ClassStuffer();
+
+myGenerator.StuffProperty<ExampleClass>("AStringFromFile", toBeStuffed);
 ```
 
 
@@ -64,7 +80,7 @@ The program uses reflection to discover object properties. Instances of classes 
 
 Limitations and caveats
 -----------------------
-Must use decorated classes for fairly obvious reasons; not true POCO
+Must use decorated classes for fairly obvious reasons; not true POCO.
 
 Author
 ------

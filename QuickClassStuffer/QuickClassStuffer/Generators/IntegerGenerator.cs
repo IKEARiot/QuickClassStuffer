@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NaiveClassStuffer.Generators
-{  
-    public class SingleGenerator : GeneratorBase, IRandomGenerator
-    {       
+namespace QuickClassStuffer.Generators
+{
+    public class IntegerGenerator :GeneratorBase, IRandomGenerator
+    {        
+
         #region IRandomGenerator Members
 
         public object SelectRandom()
         {
-            double result = ImSoRandom.NextDouble();
-            return (Single) result;            
+            return ImSoRandom.Next(int.MinValue, int.MaxValue);
         }
 
         #endregion

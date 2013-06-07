@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NaiveClassStuffer;
-using NaiveClassStuffer.Generators;
+using QuickClassStuffer;
+using QuickClassStuffer.Generators;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +14,14 @@ namespace ClassStufferUnitTest
         [TestMethod]
         public void CanInitialiseGenerator()
         {
-            var myGenerator = new NaiveClassStuffer.ClassStuffer();           
+            var myGenerator = new QuickClassStuffer.ClassStuffer();           
             Assert.IsTrue(myGenerator != null);            
         }
         
         [TestMethod]
         public void CanPopulateWithData()
         {
-            var myGenerator = new NaiveClassStuffer.ClassStuffer();
+            var myGenerator = new QuickClassStuffer.ClassStuffer();
             var results = myGenerator.StuffClass<ExampleClass>(1000);
             
             Assert.IsTrue(results.Count() == 1000);
@@ -71,7 +71,7 @@ namespace ClassStufferUnitTest
             results.Add(new ExampleClass());
             results.Add(new ExampleClass());
 
-            var myGenerator = new NaiveClassStuffer.ClassStuffer();
+            var myGenerator = new QuickClassStuffer.ClassStuffer();
 
             var stringSnapshot = results.Select(r => r.AStringFromFile).ToList();
             myGenerator.StuffProperty<ExampleClass>("AStringFromFile", results);
@@ -86,7 +86,8 @@ namespace ClassStufferUnitTest
 
     public class ExampleClass
     {
-        [StringFromFileGenerator(@"c:\users\gcase\documents\visual studio 2012\Projects\NaiveClassStuffer\ClassStufferUnitTest\TestFile1.txt")]
+
+        [StringFromFileGenerator(@"C:\Users\gcase\Documents\GitHub\QuickClassStuffer\QuickClassStuffer\ClassStufferUnitTest\TestFile1.txt")]
         public string AStringFromFile { get; set; }
 
         [IntegerGenerator]

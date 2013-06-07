@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaiveClassStuffer", "NaiveClassStuffer\NaiveClassStuffer.csproj", "{04B58A59-F814-4577-BD04-075EDE76BFA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickClassStuffer", "QuickClassStuffer\QuickClassStuffer.csproj", "{04B58A59-F814-4577-BD04-075EDE76BFA9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassStufferUnitTest", "ClassStufferUnitTest\ClassStufferUnitTest.csproj", "{21979A1C-693C-4BF0-B237-4D3F5B2CEE76}"
 EndProject

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using NaiveClassStuffer.Generators;
+using QuickClassStuffer.Generators;
 
-namespace NaiveClassStuffer
+namespace QuickClassStuffer
 {
     public class ClassStuffer
     {

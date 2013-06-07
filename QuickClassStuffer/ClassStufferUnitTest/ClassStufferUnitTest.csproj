@@ -54,13 +54,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NaiveClassStuffer\NaiveClassStuffer.csproj">
-      <Project>{04b58a59-f814-4577-bd04-075ede76bfa9}</Project>
-      <Name>NaiveClassStuffer</Name>
-    </ProjectReference>
+    <Content Include="TestFile1.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestFile1.txt" />
+    <ProjectReference Include="..\QuickClassStuffer\QuickClassStuffer.csproj">
+      <Project>{04b58a59-f814-4577-bd04-075ede76bfa9}</Project>
+      <Name>QuickClassStuffer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

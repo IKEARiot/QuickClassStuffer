@@ -69,7 +69,7 @@ toBeStuffed.Add(new ExampleClass());
 
 var myGenerator = new QuickClassStuffer.ClassStuffer();
 
-myGenerator.StuffProperty<ExampleClass>("AStringFromFile", toBeStuffed);
+myGenerator.StuffProperty<ExampleClass>(z=>z.AStringFromFile, results);
 ```
 
 

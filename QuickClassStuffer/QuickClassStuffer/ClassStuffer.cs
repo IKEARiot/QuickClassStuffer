@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Linq.Expressions;
 using QuickClassStuffer.Generators;
 
 namespace QuickClassStuffer
@@ -43,13 +44,14 @@ namespace QuickClassStuffer
         }
 
         /// <summary>
-        /// Populates the designated field of a pre-existing enumeration of decorated POCO objects
+        /// Populates the designated field of a pre-existing enumeration of decorated objects
         /// </summary>
         /// <typeparam name="T">Any class with properties decorated with a Generator</typeparam>
-        /// <param name="propertyName">The name of the property to be filled</param>
-        /// <param name="items">An existing array of decorated POCOs</param>
-        public void StuffProperty<T>(string propertyName, IEnumerable<T> items)
+        /// <param name="keySelector">A function defining the field to populate</param>
+        /// <param name="items">An existing array of decorated objects</param>
+        public void StuffProperty<T>(Expression<Func<T, Object>> keySelector, IEnumerable<T> items)
         {
+            var propertyName = GetMemberExpression(keySelector).Member.Name;
             Type thisType = typeof(T);
             var properties = thisType.GetProperties();
             var field = properties.Where(p => p.Name == propertyName).First();
@@ -71,23 +73,25 @@ namespace QuickClassStuffer
         }
 
         /// <summary>
-        /// Populates the designated field of a pre-existing decorated POCO object
+        /// Populates the designated field of a pre-existing enumeration of decorated objects
         /// </summary>
         /// <typeparam name="T">Any class with properties decorated with a Generator</typeparam>
-        /// <param name="propertyName">The name of the property to be filled</param>
-        /// <param name="item">A decorated POCO</param>
-        public void StuffProperty<T>(string propertyName, T item)
+        /// <param name="keySelector">A function defining the field to populate</param>
+        /// <param name="items">An existing decorated object</param>
+        public void StuffProperty<T>(Expression<Func<T, Object>> keySelector, T item)
         {
+            var propertyName = GetMemberExpression(keySelector).Member.Name;
             Type thisType = typeof(T);
+
             var properties = thisType.GetProperties();
             var field = properties.Where(p => p.Name == propertyName).First();
 
             if (field != null)
             {
                 var attribType = field.CustomAttributes.FirstOrDefault();
-                var thisGenerator = GetGenerator(attribType, field);                
+                var thisGenerator = GetGenerator(attribType, field);
                 var result = (T)item;
-                field.SetValue(result, thisGenerator.SelectRandom());                
+                field.SetValue(result, thisGenerator.SelectRandom());
             }
         }
 
@@ -231,7 +235,12 @@ namespace QuickClassStuffer
             }
         }
 
-
+        private static MemberExpression GetMemberExpression<T>(Expression<Func<T, object>> exp)
+        {
+            var member = exp.Body as MemberExpression;
+            var unary = exp.Body as UnaryExpression;
+            return member ?? (unary != null ? unary.Operand as MemberExpression : null);
+        }
        
     }
 }

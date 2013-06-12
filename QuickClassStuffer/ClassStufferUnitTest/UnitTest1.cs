@@ -62,7 +62,7 @@ namespace ClassStufferUnitTest
         }
 
         [TestMethod]
-        public void CanPopulateSpecificField()
+        public void CanPopulateSpecificFieldInExistingArray()
         {
             var results = new List<ExampleClass>();
 
@@ -74,14 +74,25 @@ namespace ClassStufferUnitTest
             var myGenerator = new QuickClassStuffer.ClassStuffer();
 
             var stringSnapshot = results.Select(r => r.AStringFromFile).ToList();
-            myGenerator.StuffProperty<ExampleClass>("AStringFromFile", results);
+            myGenerator.StuffProperty<ExampleClass>(z=>z.AStringFromFile, results);
+            
             stringSnapshot.AddRange(results.Select(r => r.AStringFromFile).ToList());
 
             Assert.IsTrue(stringSnapshot.Count() == 8);
             var resultSnapshot = stringSnapshot.Where(s => s != null);
-            Assert.IsTrue(resultSnapshot.Count() == 4);            
-                        
+            Assert.IsTrue(resultSnapshot.Count() == 4);    
         }
+        [TestMethod]
+        public void CanPopulateSpecificFieldInExistingObject()
+        {
+            var myObject = new ExampleClass();
+            var observe1 = myObject.AStringFromFile;
+            var myGenerator = new QuickClassStuffer.ClassStuffer();                        
+            myGenerator.StuffProperty<ExampleClass>(z => z.AStringFromFile, myObject);
+            var observe2 = myObject.AStringFromFile;
+            Assert.IsTrue(observe1 != observe2);
+        }
+
     }
 
     public class ExampleClass

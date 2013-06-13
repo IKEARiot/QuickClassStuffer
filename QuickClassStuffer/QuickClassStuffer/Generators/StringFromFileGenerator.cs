@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QuickClassStuffer.Generators
-{   
-    public class StringFromFileGenerator : GeneratorBase, IRandomGenerator
+{
+    public class StringFromFileGenerator : RandomGenerator, IDataGenerator
     {
         public string Path { get; set; }
 
@@ -33,7 +33,7 @@ namespace QuickClassStuffer.Generators
 
         #region IRandomGenerator Members
 
-        public object SelectRandom()
+        public object SelectData()
         {
             return Strings.ElementAt(ImSoRandom.Next(0, Strings.Count()));
         }

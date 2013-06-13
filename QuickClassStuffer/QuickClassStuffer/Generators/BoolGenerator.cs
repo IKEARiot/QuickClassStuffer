@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace QuickClassStuffer.Generators
 {
-    public class BoolGenerator : GeneratorBase, IRandomGenerator
+    public class BoolGenerator : RandomGenerator, IDataGenerator
     {
         
         #region IRandomGenerator Members
 
-        public object SelectRandom()
+        public object SelectData()
         {
             if (ImSoRandom.Next(0, 2) == 0)
             {

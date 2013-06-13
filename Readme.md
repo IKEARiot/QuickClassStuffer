@@ -44,7 +44,15 @@ public class ExampleClass
 
 	[NormallyDistributedDoubleGenerator(2.5, 0.03)]
 	public double ANormallyDistributedDoobery { get; set; }
-	
+
+	[IntegerSequenceGenerator(0, 3)]
+	public int AnIntegerSequence1 { get; set; }
+
+	[IntegerSequenceGenerator(-3, 3)]
+	public int AnIntegerSequence2 { get; set; }
+
+	[IntegerSequenceGenerator()]
+	public int AnIntegerSequence3 { get; set; }
 }
 ```
 Generate objects using the QCS populated with randomised data
@@ -80,8 +88,8 @@ The program uses reflection to discover object properties. Instances of classes 
 
 Limitations and caveats
 -----------------------
-Must use decorated classes for fairly obvious reasons; not true POCO.
+Must use decorated classes for fairly obvious reasons; not true POCO. Limited (non-existent) error-handling.
 
 Author
 ------
-Gareth Case
+GC

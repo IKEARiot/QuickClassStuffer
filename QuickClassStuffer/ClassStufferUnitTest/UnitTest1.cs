@@ -59,6 +59,9 @@ namespace ClassStufferUnitTest
                                 
             var someNormals = results.Select(r => r.ANormallyDistributedDoobery).Take(50).Where(i => i != 0);
             Assert.IsTrue(someNormals.Count() > 0);
+
+            var someSequence = results.Select(r => r.AnIntegerSequence1).Take(50).Where(i => i == 0);
+            Assert.IsTrue(someSequence.Count() < 50);
         }
 
         [TestMethod]
@@ -82,6 +85,7 @@ namespace ClassStufferUnitTest
             var resultSnapshot = stringSnapshot.Where(s => s != null);
             Assert.IsTrue(resultSnapshot.Count() == 4);    
         }
+
         [TestMethod]
         public void CanPopulateSpecificFieldInExistingObject()
         {
@@ -92,9 +96,9 @@ namespace ClassStufferUnitTest
             var observe2 = myObject.AStringFromFile;
             Assert.IsTrue(observe1 != observe2);
         }
-
+              
     }
-
+    
     public class ExampleClass
     {
         [StringFromFileGenerator(@"C:\Users\gcase\Documents\GitHub\QuickClassStuffer\QuickClassStuffer\ClassStufferUnitTest\TestFile1.txt")]
@@ -129,6 +133,15 @@ namespace ClassStufferUnitTest
 
         [NormallyDistributedDoubleGenerator(2.5, 0.03)]
         public double ANormallyDistributedDoobery { get; set; }
-        
+
+        [IntegerSequenceGenerator(0, 3)]
+        public int AnIntegerSequence1 { get; set; }
+
+        [IntegerSequenceGenerator(-3, 3)]
+        public int AnIntegerSequence2 { get; set; }
+
+        [IntegerSequenceGenerator()]
+        public int AnIntegerSequence3 { get; set; }
+
     }
 }

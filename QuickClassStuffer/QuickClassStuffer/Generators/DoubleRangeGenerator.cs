@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace QuickClassStuffer.Generators
 {
-  
-    public class DoubleRangeGenerator : GeneratorBase, IRandomGenerator
+
+    public class DoubleRangeGenerator : RandomGenerator, IDataGenerator
     {
 
         public double Lower { get; set; }
@@ -21,7 +21,7 @@ namespace QuickClassStuffer.Generators
 
         #region IRandomGenerator Members
 
-        public object SelectRandom()
+        public object SelectData()
         {
             return ImSoRandom.NextDouble() * (Upper-Lower) +  Lower;
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuickClassStuffer.Generators
 {
-    public class NormallyDistributedDoubleGenerator : GeneratorBase, IRandomGenerator
+    public class NormallyDistributedDoubleGenerator : RandomGenerator, IDataGenerator
     {
         public double Mean { get; set; }
         public double StandardDeviation { get; set; }
@@ -19,7 +19,7 @@ namespace QuickClassStuffer.Generators
 
         #region IRandomGenerator Members
 
-        public object SelectRandom()
+        public object SelectData()
         {
             return GetGaussianDouble();
         }

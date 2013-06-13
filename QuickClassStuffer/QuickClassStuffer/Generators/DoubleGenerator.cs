@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QuickClassStuffer.Generators
-{    
-    public class DoubleGenerator : GeneratorBase, IRandomGenerator
+{
+    public class DoubleGenerator : RandomGenerator, IDataGenerator
     {
        
         #region IRandomGenerator Members
 
-        public object SelectRandom()
+        public object SelectData()
         {
             return ImSoRandom.NextDouble();
         }

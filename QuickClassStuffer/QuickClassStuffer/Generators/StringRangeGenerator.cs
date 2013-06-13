@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace QuickClassStuffer.Generators
 {
 
-    public class StringRangeGenerator : GeneratorBase, IRandomGenerator
+    public class StringRangeGenerator : RandomGenerator, IDataGenerator
     {
         public string[] Set { get; set; }
 
@@ -18,7 +18,7 @@ namespace QuickClassStuffer.Generators
 
         #region IRandomGenerator Members
 
-        public object SelectRandom()
+        public object SelectData()
         {
             var thisNumber = ImSoRandom.Next(0, Set.Count());
             return Set.ElementAt(thisNumber);

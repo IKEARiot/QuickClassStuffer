@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace QuickClassStuffer
 {
-    public interface IRandomGenerator
+    public interface IDataGenerator
     {
-        object SelectRandom();
+        object SelectData();
     }
 }

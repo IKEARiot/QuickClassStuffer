@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QuickClassStuffer.Generators
-{  
-    public class SingleGenerator : GeneratorBase, IRandomGenerator
+{
+    public class SingleGenerator : RandomGenerator, IDataGenerator
     {       
         #region IRandomGenerator Members
 
-        public object SelectRandom()
+        public object SelectData()
         {
             double result = ImSoRandom.NextDouble();
             return (Single) result;            

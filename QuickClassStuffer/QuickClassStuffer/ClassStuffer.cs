@@ -18,10 +18,10 @@ namespace QuickClassStuffer
         static string[] _generators = { "IntegerGenerator", "SingleGenerator", "SingleRangeGenerator", 
                                           "DoubleGenerator", "DoubleRangeGenerator", "BoolGenerator", 
                                           "IntegerRangeGenerator", "StringRangeGenerator", "DateRangeGenerator", 
-                                          "StringFromFileGenerator", "NormallyDistributedDoubleGenerator" };
+                                          "StringFromFileGenerator", "NormallyDistributedDoubleGenerator", "IntegerSequenceGenerator" };
 
         // Some generators should be stored in a cache to avoid repeated processing of the source sample space i.e. a file
-        IDictionary<string, IRandomGenerator> cacheGenerators = new Dictionary<string, IRandomGenerator>();
+        IDictionary<string, IDataGenerator> cacheGenerators = new Dictionary<string, IDataGenerator>();
 
         /// <summary>
         /// Returns an array of with randomised data of type T where T is a decorated POCO 
@@ -67,7 +67,7 @@ namespace QuickClassStuffer
                     // create instance
                     var result = (T) item;                    
                     //assign value
-                    field.SetValue(result, thisGenerator.SelectRandom());
+                    field.SetValue(result, thisGenerator.SelectData());
                 }                              
             }    
         }
@@ -91,7 +91,7 @@ namespace QuickClassStuffer
                 var attribType = field.CustomAttributes.FirstOrDefault();
                 var thisGenerator = GetGenerator(attribType, field);
                 var result = (T)item;
-                field.SetValue(result, thisGenerator.SelectRandom());
+                field.SetValue(result, thisGenerator.SelectData());
             }
         }
 
@@ -101,9 +101,9 @@ namespace QuickClassStuffer
         /// <param name="thisCustomAttribute">The decoration defining the generator</param>
         /// <param name="thisPropInfo">The reflected values of the property</param>
         /// <returns>IRandomGenerator</returns>
-        private IRandomGenerator GetGenerator(CustomAttributeData thisCustomAttribute, PropertyInfo thisPropInfo)
+        private IDataGenerator GetGenerator(CustomAttributeData thisCustomAttribute, PropertyInfo thisPropInfo)
         {
-            IRandomGenerator generator = null;
+            IDataGenerator generator = null;
 
             switch (thisCustomAttribute.AttributeType.Name)
             {
@@ -180,6 +180,24 @@ namespace QuickClassStuffer
                         generator = new StringRangeGenerator(new string[] { "" });
                     }
                     break;
+                case "IntegerSequenceGenerator":
+                    var key = thisPropInfo.Name + "/" + thisCustomAttribute.AttributeType.Name;
+                    if (cacheGenerators.ContainsKey(key))
+                    {
+                        generator = cacheGenerators[key];
+                    }
+                    else
+                    {
+                        // process the gerneator
+                        generator = GetPropertyInfoAttribute<IntegerSequenceGenerator>(thisPropInfo);
+                        // add to a cache
+                        cacheGenerators.Add(key, generator);
+                    }
+                    if (generator == null)
+                    {
+                        generator = new IntegerSequenceGenerator();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -200,8 +218,7 @@ namespace QuickClassStuffer
             var result = (T)Activator.CreateInstance(thisType);
             
             foreach (var item in thisPropInfo)
-            {
-                string fullname = item.PropertyType.Name;
+            {                
                 // we need to get the annotation that relates to our generators. Prob a better way to do this 
                 var attribType = item.CustomAttributes.Where(ca=> _generators.Contains(ca.AttributeType.Name)).First();
                 // if we found the annotation
@@ -210,7 +227,7 @@ namespace QuickClassStuffer
                     // get generator
                     var thisGenerator = GetGenerator(attribType, item);
                     // set value
-                    item.SetValue(result, thisGenerator.SelectRandom());
+                    item.SetValue(result, thisGenerator.SelectData());
                 }
             }
             return result;

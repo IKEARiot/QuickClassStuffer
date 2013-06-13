@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QuickClassStuffer.Generators
-{    
-    public class DateRangeGenerator : GeneratorBase, IRandomGenerator
+{
+    public class DateRangeGenerator : RandomGenerator, IDataGenerator
     {
         private DateTime Lower { get; set; }
         private DateTime Upper { get; set; }
@@ -33,7 +33,7 @@ namespace QuickClassStuffer.Generators
                
         #region IRandomGenerator Members
 
-        public object SelectRandom()
+        public object SelectData()
         {
             TimeSpan timeSpan = Upper.Subtract(Lower);
             DateTime result = Lower.AddDays(ImSoRandom.Next(0, timeSpan.Days + 1));           

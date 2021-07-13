@@ -18,7 +18,8 @@ namespace QuickClassStuffer
         static string[] _generators = { "IntegerGenerator", "SingleGenerator", "SingleRangeGenerator", 
                                           "DoubleGenerator", "DoubleRangeGenerator", "BoolGenerator", 
                                           "IntegerRangeGenerator", "StringRangeGenerator", "DateRangeGenerator", 
-                                          "StringFromFileGenerator", "NormallyDistributedDoubleGenerator", "IntegerSequenceGenerator" };
+                                          "StringFromFileGenerator", "NormallyDistributedDoubleGenerator", "IntegerSequenceGenerator", 
+                                            "DecimalGenerator","DecimalRangeGenerator" };
 
         // Some generators should be stored in a cache to avoid repeated processing of the source sample space i.e. a file
         IDictionary<string, IDataGenerator> cacheGenerators = new Dictionary<string, IDataGenerator>();
@@ -196,6 +197,16 @@ namespace QuickClassStuffer
                     if (generator == null)
                     {
                         generator = new IntegerSequenceGenerator();
+                    }
+                    break;
+                case "DecimalGenerator":
+                    generator = new DecimalGenerator();
+                    break;
+                case "DecimalRangeGenerator":
+                    generator = GetPropertyInfoAttribute<DecimalRangeGenerator>(thisPropInfo);
+                    if (generator == null)
+                    {
+                        generator = new DecimalRangeGenerator(double.MinValue, double.MaxValue);
                     }
                     break;
                 default:

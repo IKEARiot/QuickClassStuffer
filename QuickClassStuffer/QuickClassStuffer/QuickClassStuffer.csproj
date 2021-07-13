@@ -42,6 +42,8 @@
     <Compile Include="ClassStuffer.cs" />
     <Compile Include="Generators\BoolGenerator.cs" />
     <Compile Include="Generators\DateRangeGenerator.cs" />
+    <Compile Include="Generators\DecimalGenerator.cs" />
+    <Compile Include="Generators\DecimalRangeGenearator.cs" />
     <Compile Include="Generators\DoubleGenerator.cs" />
     <Compile Include="Generators\DoubleRangeGenerator.cs" />
     <Compile Include="Generators\IntegerSequenceGenerator.cs" />

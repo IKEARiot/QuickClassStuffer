@@ -101,7 +101,8 @@ namespace ClassStufferUnitTest
     
     public class ExampleClass
     {
-        [StringFromFileGenerator(@"C:\Users\gcase\Documents\GitHub\QuickClassStuffer\QuickClassStuffer\ClassStufferUnitTest\TestFile1.txt")]
+     
+        [StringFromFileGenerator(@"D:\Users\gcase.ONEFUTURE\Documents\GitHub\QuickClassStuffer\QuickClassStuffer\ClassStufferUnitTest\TestFile1.txt")]
         public string AStringFromFile { get; set; }
 
         [IntegerGenerator]
@@ -142,6 +143,13 @@ namespace ClassStufferUnitTest
 
         [IntegerSequenceGenerator()]
         public int AnIntegerSequence3 { get; set; }
+
+
+        [DecimalGenerator]
+        public decimal ADecimal { get; set; }
+
+        [DecimalRangeGenerator(-3.2, 3.5)]
+        public decimal ADecimalInARange { get; set; }
 
     }
 }
